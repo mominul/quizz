@@ -11,6 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import * as yup from "yup";
 import Helmet from "react-helmet";
+import api from "../../axios/api";
 
 const Login = () => {
   const [registered, setRegistered] = useState(true);
@@ -41,16 +42,31 @@ const Login = () => {
     mode: "onTouched",
   });
 
-  const handleSubmitController = (data) => {
+  const handleSubmitController = async (data) => {
     if (registered) {
-      // login
+      try {
+        const reurnendData = await api.post("/auth/login", { ...data });
+        console.log(reurnendData);
+      } catch (e) {
+        console.log(e.message);
+      }
     } else {
-      // signup
+      try {
+        const reurnendData = await api.post("/auth/signup", {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          role: data.role,
+        });
+        console.log(reurnendData);
+      } catch (e) {
+        console.log(e.message);
+      }
     }
-    console.log({
-      ...data,
-      role: registerAs,
-    });
+    // console.log({
+    //   ...data,
+    //   role: registerAs,
+    // });
     reset();
   };
 
