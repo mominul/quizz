@@ -31,7 +31,7 @@
     justify-content: center;
   }
   .auth input {
-    width: 400px;
+    width: 450px;
   }
   .auth button span {
     margin-right: 5px;
@@ -47,5 +47,16 @@
 
   .auth .switch_auth {
     cursor: pointer;
+  }
+
+  .radioButtonsReg {
+    width: 450px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .radioButtonsReg input {
+    width: 15px;
   }
 }

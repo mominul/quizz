@@ -4,6 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import "./creatorupload.css";
 import * as yup from "yup";
 import Select from "react-select";
+import Helmet from "react-helmet";
 
 import AddQuestion from "./componetns/AddQuestion";
 
@@ -49,6 +50,9 @@ const CreatorUpload = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Create Quiz</title>
+      </Helmet>
       <div className="container video_upload">
         <h1 className=" mt-5 mb-4">Upload video and Questions</h1>
         <form onSubmit={handleSubmit(handleSubmitController)}>
