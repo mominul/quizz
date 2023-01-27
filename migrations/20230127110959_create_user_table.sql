@@ -1,5 +1,5 @@
 -- Add migration script here
-CREATE TABLE user (
+CREATE TABLE userr (
     user_id serial primary key,
     user_name text,
     user_mail text unique,
