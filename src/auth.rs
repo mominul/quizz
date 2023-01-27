@@ -1,6 +1,6 @@
 use argon2::Config;
 use axum::Extension;
-use axum::{routing::get, Router, Json, response::Result};
+use axum::{routing::post, Router, Json, response::Result};
 use axum::http::StatusCode;
 use axum_macros::debug_handler;
 use chrono::Utc;
@@ -77,6 +77,6 @@ async fn login(Extension(pool): Extension<PgPool>, Json(data): Json<LogIn>) -> R
 
 pub fn auth() -> Router {
     Router::new()
-        .route("/login", get(login))
-        .route("/signup", get(signup))
+        .route("/login", post(login))
+        .route("/signup", post(signup))
 }

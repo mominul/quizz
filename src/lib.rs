@@ -3,6 +3,7 @@ use sqlx::{PgPool, PgConnection, Connection, Executor};
 use uuid::Uuid;
 
 mod auth;
+mod quiz;
 
 async fn hello() -> &'static str {
     "Hello, World!"
