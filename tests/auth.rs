@@ -6,7 +6,7 @@ use tokio::test;
 
 #[test]
 async fn auth_login() {
-    let client = TestClient::new(app());
+    let client = TestClient::new(app().await);
 
     let res = client.get("/auth/login").json(&json!({
         "email": "example@abc.com",
@@ -18,7 +18,7 @@ async fn auth_login() {
 
 #[test]
 async fn auth_signup() {
-    let client = TestClient::new(app());
+    let client = TestClient::new(app().await);
 
     let res = client.get("/auth/signup").json(&json!({
         "name": "Example",

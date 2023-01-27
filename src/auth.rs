@@ -1,8 +1,11 @@
+use axum::Extension;
+use axum::extract::State;
 use axum::{routing::get, Router, Json, response::Result};
 use axum::http::StatusCode;
 use axum_macros::debug_handler;
 use serde::Deserialize;
 use serde_json::{Value, json};
+use sqlx::PgPool;
 
 #[derive(Deserialize)]
 struct LogIn {
@@ -18,12 +21,12 @@ struct SignUp {
 }
 
 #[debug_handler]
-async fn signup(Json(data): Json<SignUp>) -> StatusCode {
+async fn signup(Extension(pool): Extension<PgPool>, Json(data): Json<SignUp>) -> StatusCode {
     StatusCode::OK
 }
 
 #[debug_handler]
-async fn login(Json(data): Json<LogIn>) -> Result<Json<Value>, StatusCode> {
+async fn login(Extension(pool): Extension<PgPool>, Json(data): Json<LogIn>) -> Result<Json<Value>, StatusCode> {
     Ok(Json(json!({"auth": "hash"})))
 }
 
