@@ -14,6 +14,7 @@ import Helmet from "react-helmet";
 
 const Login = () => {
   const [registered, setRegistered] = useState(true);
+  const [registerAs, setRegisterAs] = useState("student");
 
   const authSchema = yup.object({
     email: yup.string().email().required("Email is required."),
@@ -41,7 +42,10 @@ const Login = () => {
   });
 
   const handleSubmitController = (data) => {
-    console.log(data);
+    console.log({
+      ...data,
+      role: registerAs,
+    });
     reset();
   };
 
@@ -101,6 +105,34 @@ const Login = () => {
           <h1>
             <AiOutlineUser /> Register
           </h1>
+          <h5>Register as:</h5>
+          <div className="radioButtonsReg">
+            <div className="form-check">
+              <input
+                onChange={() => setRegisterAs("student")}
+                className="form-check-input"
+                type="radio"
+                name="register"
+                id="student"
+                checked
+              />
+              <label className="form-check-label" htmlFor="student">
+                Student
+              </label>
+            </div>
+            <div className="form-check">
+              <input
+                onChange={() => setRegisterAs("creator")}
+                className="form-check-input"
+                type="radio"
+                name="register"
+                id="creator"
+              />
+              <label className="form-check-label" htmlFor="creator">
+                Content Creator
+              </label>
+            </div>
+          </div>
 
           <form onSubmit={handleSubmit(handleSubmitController)}>
             <div className="form-group">
