@@ -17,10 +17,14 @@ async fn auth_login() {
 }
 
 #[test]
-async fn test() {
+async fn auth_signup() {
     let client = TestClient::new(app());
 
-    let res = client.get("/").send().await;
+    let res = client.get("/auth/signup").json(&json!({
+        "name": "Example",
+        "email": "example@abc.com",
+        "password": "***"
+    })).send().await;
 
     assert_eq!(res.status(), StatusCode::OK);
 }

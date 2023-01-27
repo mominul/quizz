@@ -10,14 +10,16 @@ struct LogIn {
     password: String
 }
 
+#[derive(Deserialize)]
 struct SignUp {
     name: String,
     email: String,
     password: String
 }
 
-async fn signup(Json(data): Json<SignUp>) {
-    //
+#[debug_handler]
+async fn signup(Json(data): Json<SignUp>) -> StatusCode {
+    StatusCode::OK
 }
 
 #[debug_handler]
@@ -28,4 +30,5 @@ async fn login(Json(data): Json<LogIn>) -> Result<Json<Value>, StatusCode> {
 pub fn auth() -> Router {
     Router::new()
         .route("/login", get(login))
+        .route("/signup", get(signup))
 }
