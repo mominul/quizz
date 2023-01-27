@@ -19,6 +19,7 @@
     display: grid;
     justify-content: center;
     width: 500px;
+    margin-bottom: 5rem;
   }
   .video_upload input {
     width: 100%;

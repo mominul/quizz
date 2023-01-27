@@ -1,27 +1,79 @@
 import React from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
-const AddQuestion = () => {
+// const questionSchema = yup.object({
+//   question: yup.string(),
+//   options: yup.array().when([], {
+//     is: () => "question",
+//     then: yup.array().length(4, "Must have to add 4 options"),
+//   }),
+//   rightAns: yup.string().when([], {
+//     is: () => "question",
+//     then: yup.string().required("Right answer is required."),
+//   }),
+//   explanation: yup.string().when([], {
+//     is: () => "question",
+//     then: yup.string().required("Explanation is required."),
+//   }),
+// });
+
+const AddQuestion = ({ setValue, getAllValues, setQadded }) => {
+  const [allQuestions, setAllQuestions] = useState([]);
+  const [customError, setCustomError] = useState("");
   const {
     register,
     getValues,
-    setValue,
     handleChange,
-    control,
+
     handleSubmit,
+    reset,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm({
+    // resolver: yupResolver(questionSchema),
     mode: "onTouched",
   });
 
-  const handleAddQuestion = (data) => {
-    console.log(data);
+  const handleAddQuestion = (e) => {
+    e.preventDefault();
+
+    if (
+      getValues("question") &&
+      getValues("option1") &&
+      getValues("rightAns") &&
+      getValues("explanation")
+    ) {
+      setValue("questions", [
+        ...allQuestions,
+        {
+          ...getValues(),
+        },
+      ]);
+      setAllQuestions([
+        ...allQuestions,
+        {
+          ...getValues(),
+        },
+      ]);
+
+      setQadded(getAllValues("questions").length);
+      reset();
+      setCustomError("");
+      return;
+    }
+
+    setCustomError("Please fill the fields.");
   };
+
   return (
     <div>
-      <form onSubmit={handleSubmit(handleAddQuestion)}>
+      <form>
         <div className="mb-5 form-group">
-          <label htmlFor="videoUrl">Question-1</label>
+          <label htmlFor="videoUrl">Question-{allQuestions?.length + 1}</label>
           <input
             onChange={handleChange}
             {...register("question")}
@@ -38,7 +90,7 @@ const AddQuestion = () => {
             //   onChange={handleAddQuestion}
             //   name="options"
             onChange={handleChange}
-            {...register("option2")}
+            {...register("option1")}
             id="option-1"
             type="text"
             placeholder="Enter option"
@@ -98,7 +150,12 @@ const AddQuestion = () => {
             placeholder="Enter proper explanation"
           />
         </div>
-        <button type="submit" className="btn btn-success w-100 mb-3">
+        <small className="text-danger">{customError ? customError : ""}</small>
+        <button
+          type="submit"
+          onClick={handleAddQuestion}
+          className="btn btn-success w-100 mb-3"
+        >
           Add Question
         </button>
       </form>
