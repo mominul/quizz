@@ -8,7 +8,7 @@ use tokio::test;
 async fn auth_login() {
     let client = TestClient::new(app(true).await);
 
-    let res = client.get("/auth/login").json(&json!({
+    let res = client.post("/auth/login").json(&json!({
         "email": "example@abc.com",
         "password": "***"
     })).send().await;
@@ -20,7 +20,7 @@ async fn auth_login() {
 async fn auth_signup() {
     let client = TestClient::new(app(true).await);
 
-    let res = client.get("/auth/signup").json(&json!({
+    let res = client.post("/auth/signup").json(&json!({
         "name": "Example",
         "email": "example@abc.com",
         "password": "pppp",
@@ -34,14 +34,14 @@ async fn auth_signup() {
 async fn auth_persist() {
     let client = TestClient::new(app(true).await);
 
-    client.get("/auth/signup").json(&json!({
+    client.post("/auth/signup").json(&json!({
         "name": "Example",
         "email": "example@abc.com",
         "password": "pppp",
         "role": "student"
     })).send().await;
 
-    let res = client.get("/auth/login").json(&json!({
+    let res = client.post("/auth/login").json(&json!({
         "email": "example@abc.com",
         "password": "pppp"
     })).send().await;
