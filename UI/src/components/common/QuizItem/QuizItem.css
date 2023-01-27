@@ -1,0 +1,7 @@
+.quizItem img {
+  width: 100%;
+}
+
+.quizItem {
+  cursor: pointer;
+}
