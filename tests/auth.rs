@@ -1,6 +1,6 @@
 use axum_project::app;
 use axum_test_helper::TestClient;
-use http::StatusCode;
+use axum::http::StatusCode;
 use serde_json::json;
 use tokio::test;
 
