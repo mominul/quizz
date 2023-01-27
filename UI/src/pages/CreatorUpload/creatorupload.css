@@ -1,0 +1,27 @@
+.video_upload label {
+  margin-top: 1rem;
+}
+
+.add_questions_indicator {
+  display: flex;
+  justify-content: space-between;
+}
+
+.add_questions_indicator button {
+  padding: 0 1rem;
+  margin-left: 0.2rem;
+  border: none;
+  border-radius: 5px;
+}
+
+@media only screen and (min-width: 768px) {
+  .video_upload {
+    display: grid;
+    justify-content: center;
+    width: 500px;
+    margin-bottom: 5rem;
+  }
+  .video_upload input {
+    width: 100%;
+  }
+}
