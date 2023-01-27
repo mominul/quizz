@@ -69,7 +69,7 @@ async fn signup(Extension(pool): Extension<PgPool>, Json(data): Json<SignUp>) ->
 #[debug_handler]
 async fn login(Extension(pool): Extension<PgPool>, Json(data): Json<LogIn>) -> Result<Json<Value>, StatusCode> {
     let hash = argon2::hash_encoded(data.password.as_bytes(), SALT.as_bytes(), &Config::default()).unwrap();
-    let res = query!("SELECT user_id, user_role FROM userr WHERE user_mail = $1 AND password = $2", data.email, hash).fetch_one(&pool).await.unwrap();
+    let res = query!("SELECT user_id, user_role FROM userr WHERE user_mail = $1 AND password = $2", data.email, hash).fetch_one(&pool).await.map_err(|x| StatusCode::NOT_FOUND)?;
     let id = res.user_id;
     let token = create_jwt(id, res.user_role.unwrap());
     Ok(Json(json!({"auth": token})))

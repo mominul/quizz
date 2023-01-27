@@ -6,25 +6,44 @@ use tokio::test;
 
 #[test]
 async fn auth_login() {
-    let client = TestClient::new(app().await);
+    let client = TestClient::new(app(true).await);
 
     let res = client.get("/auth/login").json(&json!({
         "email": "example@abc.com",
         "password": "***"
     })).send().await;
 
-    assert_eq!(res.status(), StatusCode::OK);
+    assert_eq!(res.status(), StatusCode::NOT_FOUND);
 }
 
 #[test]
 async fn auth_signup() {
-    let client = TestClient::new(app().await);
+    let client = TestClient::new(app(true).await);
 
     let res = client.get("/auth/signup").json(&json!({
         "name": "Example",
         "email": "example@abc.com",
         "password": "pppp",
         "role": "student"
+    })).send().await;
+
+    assert_eq!(res.status(), StatusCode::OK);
+}
+
+#[test]
+async fn auth_persist() {
+    let client = TestClient::new(app(true).await);
+
+    client.get("/auth/signup").json(&json!({
+        "name": "Example",
+        "email": "example@abc.com",
+        "password": "pppp",
+        "role": "student"
+    })).send().await;
+
+    let res = client.get("/auth/login").json(&json!({
+        "email": "example@abc.com",
+        "password": "pppp"
     })).send().await;
 
     assert_eq!(res.status(), StatusCode::OK);
