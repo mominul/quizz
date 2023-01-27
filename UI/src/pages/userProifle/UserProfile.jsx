@@ -5,6 +5,7 @@ import { AiOutlineTrophy } from "react-icons/ai";
 import "./userProfile.css";
 
 import userIcon from "../../assets/images/user.jpg";
+import { Link } from "react-router-dom";
 
 const UserProfile = () => {
   return (
@@ -33,11 +34,30 @@ const UserProfile = () => {
           <Link to="/quiz/10">
             <QuizItem />
           </Link>
-          <QuizItem />
-          <QuizItem />
-          <QuizItem />
-          <QuizItem />
-          <QuizItem />
+          <Link to="/quiz/11">
+            <QuizItem />
+          </Link>
+          <Link to="/quiz/12">
+            <QuizItem />
+          </Link>
+          <Link to="/quiz/13">
+            <QuizItem />
+          </Link>
+          <Link to="/quiz/14">
+            <QuizItem />
+          </Link>
+          <Link to="/quiz/15">
+            <QuizItem />
+          </Link>
+          <Link to="/quiz/16">
+            <QuizItem />
+          </Link>
+          <Link to="/quiz/17">
+            <QuizItem />
+          </Link>
+          <Link to="/quiz/18">
+            <QuizItem />
+          </Link>
         </div>
       </div>
     </div>

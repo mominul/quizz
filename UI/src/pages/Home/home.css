@@ -4,6 +4,14 @@
 }
 
 @media only screen and (min-width: 768px) {
+  .home_container a {
+    text-decoration: none;
+    color: rgb(26, 26, 26);
+  }
+
+  .home_container a:hover {
+    color: rgb(26, 26, 26);
+  }
   .home_container {
     margin-top: 2rem;
     display: grid;
