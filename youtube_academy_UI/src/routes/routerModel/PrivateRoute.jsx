@@ -2,7 +2,7 @@ import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
-  const islogedIn = true;
+  const islogedIn = false;
   let location = useLocation();
 
   if (!islogedIn) {
