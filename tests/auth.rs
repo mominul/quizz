@@ -23,7 +23,7 @@ async fn auth_signup() {
     let res = client.get("/auth/signup").json(&json!({
         "name": "Example",
         "email": "example@abc.com",
-        "password": "***",
+        "password": "pppp",
         "role": "student"
     })).send().await;
 
