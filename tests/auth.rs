@@ -23,7 +23,8 @@ async fn auth_signup() {
     let res = client.get("/auth/signup").json(&json!({
         "name": "Example",
         "email": "example@abc.com",
-        "password": "***"
+        "password": "***",
+        "role": "student"
     })).send().await;
 
     assert_eq!(res.status(), StatusCode::OK);
