@@ -42,6 +42,11 @@ const Login = () => {
   });
 
   const handleSubmitController = (data) => {
+    if (registered) {
+      // login
+    } else {
+      // signup
+    }
     console.log({
       ...data,
       role: registerAs,
