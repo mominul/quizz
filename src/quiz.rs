@@ -1,7 +1,10 @@
 use axum::{http::StatusCode, Json, Router, routing::post};
 use axum_auth::AuthBearer;
+use jsonwebtoken::{decode, DecodingKey, Validation, Algorithm};
 use serde::Deserialize;
 use serde_json::{json, Value};
+
+use crate::{JWT_SECRET, Claims};
 
 // {
 //     "title": "video title",
@@ -26,15 +29,26 @@ use serde_json::{json, Value};
 struct Quiz {
     title: String,
     url: String,
-    //questions: Vec<>
+    questions: Vec<Question>
 }
 
-// struct Question {
-//     question: String,
-
-// }
+#[derive(Deserialize)]
+struct Question {
+    question: String,
+    option1: String,
+    option2: String,
+    option3: String,
+    option4: String,
+    rightAns: String,
+    explanation: String,
+}
 
 async fn create(AuthBearer(token): AuthBearer, Json(data): Json<Quiz>) -> Result<Json<Value>, StatusCode> {
+    let decoded = decode::<Claims>(
+        &token,
+        &DecodingKey::from_secret(JWT_SECRET),
+        &Validation::new(Algorithm::HS512),
+    )
     Ok(Json(json!({})))
 }
 

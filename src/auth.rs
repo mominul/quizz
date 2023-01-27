@@ -9,20 +9,12 @@ use serde_json::{Value, json};
 use sqlx::{PgPool, query_as, Executor, query};
 use jsonwebtoken::{decode, encode, Algorithm, DecodingKey, EncodingKey, Header, Validation};
 
-const SALT: &str = "WvEeaZROcLQWtEgP";
-const JWT_SECRET: &[u8] = b"gtuywdguybdeghgvfeghjwv";
+use crate::{Claims, SALT, JWT_SECRET};
 
 enum Role {
     Admin,
     Creator,
 
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-struct Claims {
-    sub: i32,
-    role: String,
-    exp: usize,
 }
 
 #[derive(Deserialize)]
