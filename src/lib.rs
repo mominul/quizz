@@ -1,6 +1,7 @@
 use axum::{routing::get, Extension, Router};
 use axum::http::{Method, HeaderValue};
 use axum::http::header::CONTENT_TYPE;
+use serde::{Deserialize, Serialize};
 use sqlx::{Connection, Executor, PgConnection, PgPool};
 use tower_http::trace::{TraceLayer, DefaultMakeSpan};
 use uuid::Uuid;
@@ -8,6 +9,16 @@ use tower_http::cors::{Any, CorsLayer};
 
 mod auth;
 mod quiz;
+
+pub const SALT: &str = "WvEeaZROcLQWtEgP";
+pub const JWT_SECRET: &[u8] = b"gtuywdguybdeghgvfeghjwv";
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct Claims {
+    sub: i32,
+    role: String,
+    exp: usize,
+}
 
 async fn hello() -> &'static str {
     "Hello, World!"
