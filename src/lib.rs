@@ -1,6 +1,8 @@
 use axum::{routing::get, Extension, Router};
-use axum::http::Method;
+use axum::http::{Method, HeaderValue};
+use axum::http::header::CONTENT_TYPE;
 use sqlx::{Connection, Executor, PgConnection, PgPool};
+use tower_http::trace::{TraceLayer, DefaultMakeSpan};
 use uuid::Uuid;
 use tower_http::cors::{Any, CorsLayer};
 
@@ -44,10 +46,10 @@ pub async fn app(test: bool) -> Router {
     };
 
     let cors = CorsLayer::new()
-        // allow `GET` and `POST` when accessing the resource
-        .allow_methods([Method::GET, Method::POST])
-        // allow requests from any origin
-        .allow_origin(Any);
+        .allow_origin("http://localhost:5173".parse::<HeaderValue>().unwrap())
+        .allow_credentials(true)
+        .allow_headers([CONTENT_TYPE])
+        .allow_methods([Method::GET, Method::POST]);
 
     Router::new()
         .route("/", get(hello))
@@ -55,4 +57,7 @@ pub async fn app(test: bool) -> Router {
         .nest("/quiz", quiz::quiz())
         .layer(Extension(pool))
         .layer(cors)
+        .layer(
+            TraceLayer::new_for_http().make_span_with(DefaultMakeSpan::new().include_headers(true)),
+        )
 }
