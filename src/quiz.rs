@@ -1,8 +1,9 @@
-use axum::{http::StatusCode, Json, Router, routing::post};
+use axum::{http::StatusCode, Json, Router, routing::post, Extension};
 use axum_auth::AuthBearer;
 use jsonwebtoken::{decode, DecodingKey, Validation, Algorithm};
 use serde::Deserialize;
 use serde_json::{json, Value};
+use sqlx::{PgPool, query};
 
 use crate::{JWT_SECRET, Claims};
 
@@ -43,12 +44,24 @@ struct Question {
     explanation: String,
 }
 
-async fn create(AuthBearer(token): AuthBearer, Json(data): Json<Quiz>) -> Result<Json<Value>, StatusCode> {
-    let decoded = decode::<Claims>(
+async fn create(AuthBearer(token): AuthBearer, Extension(pool): Extension<PgPool>, Json(data): Json<Quiz>) -> Result<Json<Value>, StatusCode> {
+    let claim = decode::<Claims>(
         &token,
         &DecodingKey::from_secret(JWT_SECRET),
         &Validation::new(Algorithm::HS512),
-    )
+    ).unwrap().claims;
+
+    if claim.role != "creator" {
+        return Err(StatusCode::UNAUTHORIZED);
+    }
+
+    let quiz_id = query!("INSERT INTO quiz (title, video_link, user_id) values ($1, $2, $3) RETURNING quiz_id;", data.title, data.url, claim.sub).fetch_one(&pool).await.map_err(|x| StatusCode::INTERNAL_SERVER_ERROR)?;
+    let quiz_id = quiz_id.quiz_id;
+
+    for q in data.questions {
+        let ques_id = query!("INSERT INTO questions (question, option1, option2, option3, option4, answer, solve, quiz_id ) values($1, $2 , $3, $4, $5, $6 , $7, $8) RETURNING question_id;", q.question, q.option1, q.option2, q.option3, q.option4, q.rightAns, q.explanation, quiz_id).fetch_one(&pool).await.map_err(|x| StatusCode::INTERNAL_SERVER_ERROR)?;
+    }
+
     Ok(Json(json!({})))
 }
 
