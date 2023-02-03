@@ -69,6 +69,6 @@ pub async fn app(test: bool) -> Router {
         .layer(Extension(pool))
         .layer(cors)
         .layer(
-            TraceLayer::new_for_http().make_span_with(DefaultMakeSpan::new().include_headers(true)),
+            TraceLayer::new_for_http()
         )
 }
