@@ -12,7 +12,6 @@ path = "src/lib.rs"
 axum = "0.6"
 axum-macros = "0.3"
 rust-argon2 = "1"
-hyper = { version = "0.14", features = ["full"] }
 tokio = { version = "1", features = ["full"] }
 tower = "0.4"
 sqlx = { version = "0.6", features = [ "runtime-tokio-rustls" , "postgres", "chrono", "macros", "migrate" ] }
@@ -25,6 +24,7 @@ axum-auth = "0.4.0"
 tower-http = { version = "0.3.5", features = ["cors", "trace"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+thiserror = "1.0.38"
 
 
 [dev-dependencies]
